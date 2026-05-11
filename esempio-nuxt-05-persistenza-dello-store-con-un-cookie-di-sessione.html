@@ -1,0 +1,1383 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Introduzione al framework NUXT.JS attraverso esempi">
+      
+      
+        <meta name="author" content="Serge Tahé">
+      
+      
+        <link rel="canonical" href="https://stahe.github.io/it-nuxtjs-dec-2019/esempio-nuxt-05-persistenza-dello-store-con-un-cookie-di-sessione.html">
+      
+      
+        <link rel="prev" href="esempio-nuxt-04-mantenimento-di-una-sessione-clientserver.html">
+      
+      
+        <link rel="next" href="esempio-nuxt-06-iniezione-nel-contesto-di-un-gestore-di-sessioni.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>8. Esempio [nuxt-05]: Persistenza dello store con un cookie di sessione - Introduzione al framework NUXT.JS attraverso esempi</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/focus.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBZC3JVJNR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var siteName = "Introduzione al framework NUXT.JS attraverso esempi";
+    gtag('config', 'G-EBZC3JVJNR', {
+        'page_title': siteName
+    });
+  </script>
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#8-esempio-nuxt-05-persistenza-dello-store-con-un-cookie-di-sessione" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Introduzione al framework NUXT.JS attraverso esempi" class="md-header__button md-logo" aria-label="Introduzione al framework NUXT.JS attraverso esempi" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introduzione al framework NUXT.JS attraverso esempi
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              8. Esempio [nuxt-05]: Persistenza dello store con un cookie di sessione
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="purple"  aria-label="Passa alla modalità scura"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Passa alla modalità scura" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="purple"  aria-label="Passa alla modalità chiara"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Passa alla modalità chiara" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://stahe.github.io/it-nuxtjs-dec-2019" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Introduzione al framework NUXT.JS attraverso esempi" class="md-nav__button md-logo" aria-label="Introduzione al framework NUXT.JS attraverso esempi" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Introduzione al framework NUXT.JS attraverso esempi
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://stahe.github.io/it-nuxtjs-dec-2019" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benvenuti
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="introduzione-al-framework-nuxtjs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduzione al framework NUXT.JS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lambiente-di-lavoro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. L'ambiente di lavoro
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="una-prima-applicazione-nuxtjs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Una prima applicazione [nuxt.js]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esempio-nuxt-01-routing-e-navigazione.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Esempio [nuxt-01]: Routing e navigazione
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esempio-nuxt-02-pagine-server-e-client.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Esempio [nuxt-02]: Pagine server e client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esempio-nuxt-03-nuxtserverinit.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Esempio [nuxt-03]: nuxtServerInit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esempio-nuxt-04-mantenimento-di-una-sessione-clientserver.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Esempio [nuxt-04]: Mantenimento di una sessione client/server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Esempio [nuxt-05]: Persistenza dello store con un cookie di sessione
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="esempio-nuxt-05-persistenza-dello-store-con-un-cookie-di-sessione.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Esempio [nuxt-05]: Persistenza dello store con un cookie di sessione
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#81-panoramica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1. Panoramica
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#82-il-file-di-configurazione-nuxtconfigjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2. Il file di configurazione [nuxt.config.js]
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#83-il-principio-della-persistenza-della-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3. Il principio della persistenza della memoria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#84-inizializzazione-dello-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4. Inizializzazione dello store
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#85-incremento-del-contatore-dello-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5. Incremento del contatore dello store
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#86-esecuzione-dellesempio-nuxt-05" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.6. Esecuzione dell&#x27;esempio [nuxt-05]
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esempio-nuxt-06-iniezione-nel-contesto-di-un-gestore-di-sessioni.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Esempio [nuxt-06]: Iniezione nel contesto di un gestore di sessioni
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esempio-nuxt-07-contesti-client-e-server.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Esempio [nuxt-07]: Contesti client e server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esempio-nuxt-08-middleware-di-routing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Esempio [nuxt-08]: middleware di routing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esempio-nuxt-09-controllo-della-navigazione.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Esempio [nuxt-09]: Controllo della navigazione
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esempio-nuxt-10-asyncdata-e-caricamento.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Esempio [nuxt-10]: asyncData e caricamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esempio-nuxt-11-personalizzazione-dellimmagine-di-caricamento.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Esempio [nuxt-11]: Personalizzazione dell'immagine di caricamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esempio-nuxt-12-richieste-http-con-axios.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Esempio [nuxt-12]: richieste HTTP con axios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esempio-nuxt-13-verifica-della-navigazione-di-nuxt-12.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Esempio [nuxt-13]: Verifica della navigazione di [nuxt-12]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="esempio-nuxt-20-porting-dellesempio-vuejs-22.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Esempio [nuxt-20]: Porting dell'esempio [vuejs-22]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="8-esempio-nuxt-05-persistenza-dello-store-con-un-cookie-di-sessione">8. <span style="color: #365f91">Esempio [nuxt-05]: Persistenza dello store con un cookie di sessione</span></h1>
+<p><strong>Obiettivo</strong>: vogliamo che lo store [Vuex] non venga resettato ad ogni richiesta al server. Per ottenere questo risultato, useremo un cookie di sessione:</p>
+<ul>
+  <li>lo store verrà inizializzato dal server e memorizzato da quest&#x27;ultimo in un cookie di sessione;
+  </li>
+  <li>il browser del client riceverà questo cookie di sessione e lo invierà automaticamente ad ogni nuova richiesta al server;
+  </li>
+  <li>il server potrà quindi recuperare questo cookie di sessione e lavorare con lo store in esso contenuto, uno store aggiornato dal client;
+  </li>
+</ul>
+<h2 id="81-panoramica">8.1. <span style="color: #4f81bd">Panoramica</span></h2>
+<p>Il progetto [nuxt-05] viene inizialmente creato clonando il progetto [nuxt-04]:</p>
+<p><img src="images/100000000000014D00000194D2B72658.png" width="133" height="162" style="width:3.53cm;height:4.283cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/100000000000014D00000194D2B72658.png" /></p>
+<p>Vedremo che cambierà solo il file [store/index.js].</p>
+<p>Per utilizzare i cookie con [nuxt], useremo il modulo [cookie-universal-nuxt], che installiamo con [yarn] in un terminale VSCode:</p>
+<p><img src="images/10000000000004C800000124EE164342.png" width="612" height="146" style="width:16.193cm;height:3.863cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000004C800000124EE164342.png" /></p>
+<ul>
+  <li>In [4], digita il comando [yarn add cookie-universal-nuxt];
+  </li>
+</ul>
+
+<p>Viene così aggiunto un nuovo modulo al file [package.json] del progetto [dvp]:</p>
+<div class="odt-code-rich" data-linenums="true" style="counter-reset: odtline 0;"><pre><code class="language-text">
+<span class="odt-code-line"><span class="odt-code-line-content">...</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">},</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">  </span>&quot;dependencies&quot;<span style="color:#000000">: {</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">    </span>&quot;@nuxtjs/axios&quot;<span style="color:#000000">: </span><span style="color:#a31515">&quot;^5.3.6&quot;</span><span style="color:#000000">,</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">    </span>&quot;bootstrap&quot;<span style="color:#000000">: </span><span style="color:#a31515">&quot;^4.1.3&quot;</span><span style="color:#000000">,</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">    </span>&quot;bootstrap-vue&quot;<span style="color:#000000">: </span><span style="color:#a31515">&quot;^2.0.0&quot;</span><span style="color:#000000">,</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">    </span>&quot;cookie-universal-nuxt&quot;<span style="color:#000000">: </span><span style="color:#a31515">&quot;^2.0.19&quot;</span><span style="color:#000000">,</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">    </span><span style="color:#2e75b6">&quot;nuxt&quot;</span><span style="color:#000000">: </span>&quot;^2.0.0&quot;</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">},</span></span>
+</code></pre></div>
+
+<h2 id="82-il-file-di-configurazione-nuxtconfigjs">8.2. <span style="color: #4f81bd"><strong><span style="color: #4f81bd">Il file di configurazione [nuxt.config.js]</span></strong></span></h2>
+<p>Affinché [nuxt] possa utilizzare i cookie di [cookie-universal-nuxt], è necessario dichiarare questo modulo nel file di configurazione [nuxt.config.js]:</p>
+<div class="odt-code-rich" data-linenums="true" style="counter-reset: odtline 0;"><pre><code class="language-java">
+<span class="odt-code-line"><span class="odt-code-line-content">...</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">],</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#008000">/*</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   ** Nuxt.js modules</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   */</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  modules: [</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// Doc: https://bootstrap-vue.js.org</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">&#x27;bootstrap-vue/nuxt&#x27;,</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// Doc: https://axios.nuxtjs.org/usage</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">&#x27;@nuxtjs/axios&#x27;,</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// https://www.npmjs.com/package/cookie-universal-nuxt</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">&#x27;cookie-universal-nuxt&#x27;</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  ],</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">...</span></span>
+</code></pre></div>
+
+<p><span style="color: #008000"> </span></p>
+<ul>
+  <li>riga 12, il modulo [cookie-universal-nuxt] viene aggiunto all&#x27;array dei moduli [nuxt] [6];
+  </li>
+</ul>
+
+<p>Il file [nuxt.config.js] risulta infine come segue:</p>
+<div class="odt-code-rich" data-linenums="true" style="counter-reset: odtline 0;"><pre><code class="language-javascript">
+<span class="odt-code-line"><span class="odt-code-line-content">export<span style="color:#000000"> </span>default<span style="color:#000000"> {</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">  mode: </span>&#x27;universal&#x27;<span style="color:#000000">,</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#008000">/*</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   ** Headers of the page</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   */</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  head: {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">    title: </span>&#x27;Introduction à [nuxt.js]&#x27;<span style="color:#000000">,</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    meta: [</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      { charset: <span style="color:#a31515">&#x27;utf-8&#x27;</span> },</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">      { name: </span>&#x27;viewport&#x27;<span style="color:#000000">, content: </span>&#x27;width=device-width, initial-scale=1&#x27;<span style="color:#000000"> },</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">        hid: <span style="color:#a31515">&#x27;description&#x27;</span>,</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">        name: <span style="color:#a31515">&#x27;description&#x27;</span>,</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">        content: </span>&#x27;ssr routing loading asyncdata middleware plugins store&#x27;</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      }</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    ],</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    link: [{ rel: <span style="color:#a31515">&#x27;icon&#x27;</span>, type: <span style="color:#a31515">&#x27;image/x-icon&#x27;</span>, href: <span style="color:#a31515">&#x27;/favicon.ico&#x27;</span> }]</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  },</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#008000">/*</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   ** Customize the progress-bar color</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   */</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  loading: { color: <span style="color:#a31515">&#x27;#fff&#x27;</span> },</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#008000">/*</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   ** Global CSS</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   */</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  css: [],</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#008000">/*</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   ** Plugins to load before mounting the App</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   */</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  plugins: [],</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#008000">/*</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   ** Nuxt.js dev-modules</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   */</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  buildModules: [</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// Doc: https://github.com/nuxt-community/eslint-module</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">&#x27;@nuxtjs/eslint-module&#x27;</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  ],</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#008000">/*</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   ** Nuxt.js modules</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   */</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  modules: [</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// Doc: https://bootstrap-vue.js.org</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">&#x27;bootstrap-vue/nuxt&#x27;,</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// Doc: https://axios.nuxtjs.org/usage</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">&#x27;@nuxtjs/axios&#x27;,</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// https://www.npmjs.com/package/cookie-universal-nuxt</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">&#x27;cookie-universal-nuxt&#x27;</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  ],</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#008000">/*</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   ** Axios module configuration</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   ** See https://axios.nuxtjs.org/options</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   */</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  axios: {},</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#008000">/*</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   ** Build configuration</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">   */</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  build: {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#008000">/*</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">     ** You can extend webpack config here</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">     */</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    extend(config, ctx) {}</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  },</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#000000">// source code directory</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  srcDir: <span style="color:#a31515">&#x27;nuxt-05&#x27;</span>,</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#000000">// router</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  router: {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// application URL root</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">    base: </span>&#x27;/nuxt-05/&#x27;</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  },</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#000000">// server</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  server: {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// service port, default 3000</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    port: 81,</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// network addresses listened to, default localhost: 127.0.0.1</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// 0.0.0.0 = all the machine&#x27;s network addresses</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">    host: </span>&#x27;localhost&#x27;</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  },</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#000000">// environment</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="font-weight:bold">env</span>: {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    maxAge: 60 * 5</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  }</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">}</span></span>
+</code></pre></div>
+
+<ul>
+  <li>riga 79: abbiamo aggiunto la chiave [env] al file. Questa chiave è una parola riservata. Gli elementi dichiarati in questo oggetto sono disponibili tramite l&#x27;oggetto [context.env] negli elementi dell&#x27;applicazione;
+  </li>
+  <li>riga 80: l&#x27;attributo [maxAge] sarà la durata massima del cookie di sessione, misurata dall&#x27;ultima volta in cui il cookie è stato inizializzato. Questa durata è espressa in secondi. Qui abbiamo impostato una durata di 5 minuti;
+  </li>
+</ul>
+<h2 id="83-il-principio-della-persistenza-della-memoria">8.3. <span style="color: #4f81bd">Il principio della persistenza della memoria</span></h2>
+<p>I cookie scambiati tra il client e il server sono disponibili su entrambe le parti (client e server) in:</p>
+<ul>
+  <li>[context.app.$cookies] ovunque sia disponibile l&#x27;oggetto [context], ovvero quasi ovunque;
+  </li>
+  <li>[this.$cookies] all&#x27;interno di una vista;
+  </li>
+</ul>
+
+<p>Un cookie specifico viene recuperato utilizzando l&#x27;espressione [...$cookies.<strong>get</strong>(&#x27;cookie_name)&#x27;]. Il valore di un cookie viene impostato utilizzando l&#x27;espressione [...$cookies.<strong>set</strong>(&#x27;cookie_name&#x27;, cookie_value)].</p>
+<p>Il principio alla base del cookie di persistenza dello store è il seguente:</p>
+<ul>
+  <li>quando il server inizializza lo store nella funzione [nuxtServerInit], lo stato dello store verrà memorizzato in un cookie denominato ‘session’;
+  </li>
+  <li>il cookie &quot;session&quot; farà quindi parte della risposta HTTP del server. Sappiamo che un browser rinvia al server i cookie che il server gli ha inviato. Lo fa con ogni nuova richiesta che effettua al server. Sappiamo anche che il server invia lo store all&#x27;interno della pagina che invia al client;
+  </li>
+  <li>all&#x27;interno del browser, l&#x27;applicazione client recupera lo store inviato dal server e quindi esegue le sue attività. Ci assicureremo che ogni volta che modifica lo store, il suo nuovo stato venga memorizzato nel cookie &quot;session&quot; salvato dal browser;
+  </li>
+  <li>Se l&#x27;utente forza una richiesta al server, il browser client invierà automaticamente tutti i cookie che il server gli ha precedentemente inviato, incluso il cookie denominato &quot;session&quot;;
+  </li>
+  <li>quando, a seguito di questa richiesta, il server reimposta nuovamente lo store, recupererà il cookie &quot;session&quot; e inizializzerà lo stato dello store con il suo valore;
+  </li>
+  <li>ci sarà quindi continuità dell&#x27;archivio tra il client e il server;
+  </li>
+</ul>
+<h2 id="84-inizializzazione-dello-store">8.4. <span style="color: #4f81bd">Inizializzazione dello store</span></h2>
+<p>L&#x27;archivio è implementato nel file [store / index.js]:</p>
+<div class="odt-code-rich" data-linenums="true" style="counter-reset: odtline 0;"><pre><code class="language-javascript">
+<span class="odt-code-line"><span class="odt-code-line-content">/* eslint-disable no-console */</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#0000ff">export</span> <span style="color:#0000ff">const</span> state = () =&gt; ({</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#000000">// meter</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  counter: 0</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">})</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"> </span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#0000ff">export</span> <span style="color:#0000ff">const</span> mutations = {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#000000">// increment counter by one [inc] value</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  increment(state, inc) {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    state.counter += inc</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  },</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#000000">// state replacement</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  replace(state, newState) {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#0000ff">for</span> (<span style="color:#0000ff">const</span> attr <span style="color:#0000ff">in</span> newState) {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      state[attr] = newState[attr]</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    }</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  }</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">}</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"> </span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#0000ff">export</span> <span style="color:#0000ff">const</span> actions = {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#0000ff">async</span> nuxtServerInit(store, context) {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// who executes this code?</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    console.log(<span style="color:#a31515">&#x27;nuxtServerInit, client=&#x27;</span>, process.client, <span style="color:#a31515">&#x27;serveur=&#x27;</span>, process.server, <span style="color:#a31515">&#x27;env=&#x27;</span>, context.env)</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// waiting for a promise to be fulfilled</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#0000ff">await</span> <span style="color:#0000ff">new</span> Promise(<span style="color:#0000ff">function</span>(resolve, reject) {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      <span style="color:#000000">// this is normally an asynchronous function</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      <span style="color:#000000">// we simulate it with a one-second wait</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      setTimeout(() =&gt; {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">        <span style="color:#000000">// init session</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">        initStore(store, context)</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">        <span style="color:#000000">// success</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">        resolve()</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      }, 1000)</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    })</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  }</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">}</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"> </span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#0000ff">function</span> initStore(store, context) {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#000000">// is there a session cookie in the current request?</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#0000ff">const</span> cookies = context.app.$cookies</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#0000ff">const</span> session = cookies.get(<span style="color:#a31515">&#x27;session&#x27;</span>)</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#0000ff">if</span> (!session) {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// no existing session</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">    console.log(</span>&quot;nuxtServerInit, initialisation d&#x27;une nouvelle session&quot;<span style="color:#000000">)</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// initialize the blind</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    store.commit(<span style="color:#a31515">&#x27;increment&#x27;</span>, 77)</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  } <span style="color:#0000ff">else</span> {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">    console.log(</span>&quot;nuxtServerInit, reprise d&#x27;une session existante&quot;<span style="color:#000000">)</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// update the store with the session cookie</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    store.commit(<span style="color:#a31515">&#x27;replace&#x27;</span>, session.store)</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  }</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#000000">// put the store in the session cookie</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  cookies.set(<span style="color:#a31515">&#x27;session&#x27;</span>, { store: store.state }, { path: context.base, maxAge: context.env.maxAge })</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#000000">// log</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  console.log(<span style="color:#a31515">&#x27;initStore terminé, store=&#x27;</span>, store.state)</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">}</span></span>
+</code></pre></div>
+
+<p><strong>Commenti</strong></p>
+<ul>
+  <li>righe 2-5: il negozio sarà costituito da un contatore;
+  </li>
+  <li>righe 9–11: questo contatore può essere incrementato;
+  </li>
+  <li>righe 13-17: lo stato dello store può essere inizializzato da un nuovo stato. Questa funzione è inclusa per dimostrare una possibile inizializzazione dello store quando non è limitato a un semplice contatore, come in questo esempio;
+  </li>
+  <li>righe 21–35: la funzione [nuxtServerInit] non è cambiata;
+  </li>
+  <li>riga 30: allo scadere del timeout di un secondo, lo store viene inizializzato utilizzando la funzione alle righe 38–56;
+  </li>
+  <li>righe 40–41: iniziamo recuperando il cookie denominato &quot;session&quot;:
+  </li>
+</ul>
+
+<ol>
+    <ol>
+      <li>durante la prima esecuzione dell&#x27;applicazione e durante la prima richiesta effettuata al server, questo cookie <b>non esisterà ancora</b>. Verrà quindi creato (riga 53) e inviato al browser del client;
+      </li>
+      <li>durante la stessa esecuzione dell&#x27;applicazione e durante le richieste n. 2, n. 3, ... effettuate al server, questo cookie <b>esisterà </b>perché il browser del client lo invierà nuovamente ad ogni nuova richiesta effettuata al server;
+      </li>
+      <li>Durante una seconda esecuzione dell&#x27;applicazione e alla prima richiesta effettuata al server, questo cookie <b>potrebbe anche esistere</b>. Infatti, al termine del passaggio 1, il cookie è stato memorizzato sul browser con una durata specifica. Se tale durata non è scaduta, il cookie denominato &quot;session&quot; verrà inviato con la prima richiesta effettuata al server
+      </li>
+    </ol>
+</ol>
+
+<p>In sintesi, per ogni richiesta effettuata al server: se il cookie &quot;session&quot; è già memorizzato nel browser del client, il server lo riceverà; altrimenti, non lo riceverà.</p>
+<ul>
+  <li>Righe 42–47: Se il server non riceve il cookie di sessione, lo store viene inizializzato dalla riga 46;
+    <ul>
+      <li>quindi, alla riga 53, verrà creato un cookie denominato &quot;session&quot; e inserito nella risposta HTTP del server. Il valore del cookie è l&#x27;oggetto [<span style="color: #000000">{ store: store.state }</span>]. È quindi lo stato dello store, e non lo store stesso, che viene inserito nel cookie di sessione;
+      </li>
+      <li>il terzo parametro della funzione [set] è un oggetto options:
+        <ul>
+          <li>[path] specifica l&#x27;URL a cui questo cookie deve essere inviato. [context.base] è l&#x27;URL di base dell&#x27;applicazione [nuxt-05]. Questo è definito nel file [nuxt.config.js]:
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="odt-code-rich" data-linenums="false" style="counter-reset: odtline 0;"><pre><code class="language-javascript">
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#000000">// router</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  router: {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    <span style="color:#000000">// application URL root</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content"><span style="color:#000000">    base: </span>&#x27;/nuxt-05/&#x27;</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">},</span></span>
+</code></pre></div>
+
+<ol>
+    <ol>
+        <ul>
+          <li>[maxAge] è la durata del cookie in secondi sul browser. Trascorso questo tempo, il browser non lo invia più al server. [<span style="color: #000000">context.env.maxAge</span>] restituisce un valore specificato nel file [nuxt.config.js]:
+          </li>
+        </ul>
+    </ol>
+</ol>
+
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>// environnement
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>  env: {
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>    maxAge: 60 * 5
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>}
+</code></pre></div></td></tr></table></div>
+<p>[env] è una parola chiave riservata nel file di configurazione. Qui impostiamo la durata a 5 minuti. Questa durata viene misurata dall&#x27;ultima volta che il browser ha ricevuto il cookie di sessione. Trascorso questo tempo, il cookie non verrà più inviato al server, che dovrà quindi avviare una nuova sessione;</p>
+<ul>
+  <li>righe 48–50: se il server riceve il cookie di sessione, lo stato dello store viene inizializzato con l&#x27;oggetto [store] proveniente dal cookie di sessione. Ricordiamo che questo oggetto contiene lo stato salvato dello store;
+    <ul>
+      <li>quindi, alla riga 53, il cookie di sessione viene inserito nella risposta inviata al browser del cliente:
+        <ul>
+          <li>la funzione [get] recupera il cookie di sessione dalla <b>richiesta ricevuta </b>dal server;
+          </li>
+          <li>la funzione [set] inserisce il cookie di sessione nella <b>risposta </b>che il server invia al browser del client;
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<h2 id="85-incremento-del-contatore-dello-store">8.5. <span style="color: #4f81bd">Incremento del contatore dello store</span></h2>
+<p>L&#x27;incremento del contatore nella pagina [index.vue] funziona come segue:</p>
+<div class="odt-code-rich" data-linenums="true" style="counter-reset: odtline 0;"><pre><code class="language-javascript">
+<span class="odt-code-line"><span class="odt-code-line-content">  <span style="color:#000000">// event management</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  methods: {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    incrementCounter() {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      console.log(&#x27;incrementCounter&#x27;)</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">        // counter increment of 1</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      this.$store.commit(&#x27;increment&#x27;, 1)</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">       // change display value</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      this.value = this.$store.state.counter</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">       // store in session cookie</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      this.$cookies.set(&#x27;session&#x27;, { store: this.$store.state }, { path: this.$nuxt.context.base, maxAge: this.$nuxt.context.env.maxAge })</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    }</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">}</span></span>
+</code></pre></div>
+
+<p>Sul lato client, ogni volta che lo store viene modificato, deve essere salvato nel cookie di sessione. Questo perché l&#x27;utente può richiedere manualmente un URL in qualsiasi momento e noi dobbiamo quindi essere in grado di inviare uno store aggiornato al server. Ecco perché, alla riga 10, dopo aver incrementato il contatore dello store, salviamo il suo stato nel cookie di sessione:</p>
+<ul>
+  <li>i cookie sono disponibili nella proprietà [this.$cookies];
+  </li>
+  <li>lo stato dello store [<span style="color: #0000ff">this</span><span style="color: #000000">.$store.state</span>] viene salvato nel cookie associato alla chiave [store];
+  </li>
+  <li>il percorso del cookie è [context.base]. In una vista, il contesto è disponibile in [this.$nuxt.context];
+  </li>
+  <li>La durata del cookie è [context.env.maxAge], disponibile qui nella proprietà [this.$nuxt.context.env.maxAge];
+  </li>
+</ul>
+<h2 id="86-esecuzione-dellesempio-nuxt-05">8.6. <span style="color: #4f81bd">Esecuzione dell&#x27;esempio [nuxt-05]</span></h2>
+<p>Avviamo l&#x27;applicazione [nuxt-05]:</p>
+<p><img src="images/10000000000004A4000000C393512E1D.png" width="594" height="98" style="width:15.722cm;height:2.581cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000004A4000000C393512E1D.png" /></p>
+<p>Le schermate che seguono sono state catturate dal browser Chrome. Richiediamo l&#x27;URL [http://localhost:81/nuxt-05/]. <strong>Non dimenticare</strong> il / finale dopo /nuxt-05, altrimenti non otterrai i risultati previsti:</p>
+<p><img src="images/10000000000007EA000002AD420D8580.png" width="608" height="205" style="width:16.08cm;height:5.436cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000007EA000002AD420D8580.png" /></p>
+<ul>
+  <li>in [4], abbiamo ottenuto il valore iniziale dello store (77);
+  </li>
+</ul>
+
+<p>Esaminiamo i log del browser (F12):</p>
+<p><img src="images/10000000000003A8000002BFF206F300.png" width="281" height="211" style="width:7.43cm;height:5.579cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000003A8000002BFF206F300.png" /></p>
+<ul>
+  <li>in [5-6], i log del server;
+  </li>
+  <li>in [7], vediamo che il server sta avviando una nuova sessione. Ciò significa che non ha ricevuto un cookie di sessione;
+  </li>
+  <li>in [8], inizializzazione del contatore con il valore 77;
+  </li>
+  <li>in [9], la pagina [index] del server (9) e la pagina [index] del client (10) mostrano entrambe lo stesso valore del contatore;
+  </li>
+</ul>
+
+<p>Ora diamo un&#x27;occhiata ai cookie ricevuti dal browser:</p>
+<p><img src="images/100000000000071C0000026550FCE5E8.png" width="546" height="184" style="width:14.452cm;height:4.868cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/100000000000071C0000026550FCE5E8.png" /></p>
+<ul>
+  <li>In [1], seleziona la scheda [Applicazione], quindi l&#x27;opzione [Cookie] [2]. Tra tutti i cookie presenti nel tuo browser, seleziona quello proveniente dal dominio [http://localhost:81];
+  </li>
+  <li>in [4], il cookie denominato &quot;session&quot;. Se non lo vedi, ricarica la pagina [F5]: forse la sua durata di 5 minuti è scaduta;
+  </li>
+  <li>in [5], il valore del cookie. Sebbene non sia molto leggibile a causa della codifica dei caratteri { :, è possibile distinguere il valore 77 dal contatore;
+  </li>
+  <li>in [6], l&#x27;URL del cookie: ogni volta che questo URL viene richiesto, il browser invierà il cookie al server;
+  </li>
+  <li>in [7], il tempo di scadenza del cookie. Una volta trascorso questo tempo, il cookie verrà eliminato dal browser;
+  </li>
+</ul>
+
+<p>Assicurati di avere questo cookie. Se non ce l&#x27;hai, ricarica la pagina (F5). Una volta che hai la pagina con il cookie, ricarica di nuovo la pagina (F5). I log appariranno quindi così:</p>
+<p><img src="images/10000000000003F5000002D011D4BFB8.png" width="304" height="216" style="width:8.042cm;height:5.717cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000003F5000002D011D4BFB8.png" /></p>
+<p>Questa volta, in [3], il server ha recuperato con successo il cookie di sessione. È stato inviato dal browser del client.</p>
+<p>Ora, incrementa il contatore, quindi ricarica di tanto in tanto la pagina corrente (F5) — che sia [index] o [page1] — e dovresti notare che il contatore non si azzera a 77 come nell&#x27;esempio [nuxt-04], ma mantiene il valore che aveva nel browser del client prima che la pagina venisse ricaricata:</p>
+<p><img src="images/10000000000007E2000002B5201B12CF.png" width="605" height="208" style="width:16.02cm;height:5.502cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000007E2000002B5201B12CF.png" /></p>
+<p><img src="images/10000000000007F9000002B492061390.png" width="612" height="208" style="width:16.2cm;height:5.493cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000007F9000002B492061390.png" /></p>
+<p>I log del browser sono quindi i seguenti:</p>
+<p><img src="images/1000000000000530000001B45ACF1350.png" width="664" height="218" style="width:17.572cm;height:5.77cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/1000000000000530000001B45ACF1350.png" /></p>
+<p><strong>Nota</strong>: a scopo di test, potrebbe essere necessario eliminare [5] il cookie di sessione memorizzato nel browser per avviare una nuova sessione, inizializzata dal server, durante la successiva richiesta inviata ad esso.</p>
+<p>Infine, dimostriamo l&#x27;effetto della funzione [incrementCounter] nella pagina [index] sul cookie di sessione memorizzato nel browser del client:</p>
+<div class="odt-code-rich" data-linenums="true" style="counter-reset: odtline 0;"><pre><code class="language-javascript">
+<span class="odt-code-line"><span class="odt-code-line-content">// event management</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  methods: {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    incrementCounter() {</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      console.log(<span style="color:#a31515">&#x27;incrementCounter&#x27;</span>)</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      <span style="color:#000000">// counter increment of 1</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      <span style="color:#0000ff">this</span>.$store.commit(<span style="color:#a31515">&#x27;increment&#x27;</span>, 1)</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      <span style="color:#000000">// change display value</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      <span style="color:#0000ff">this</span>.value = <span style="color:#0000ff">this</span>.$store.state.counter</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      <span style="color:#000000">// store in session cookie</span></span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">      <span style="color:#0000ff">this</span>.$cookies.set(<span style="color:#a31515">&#x27;session&#x27;</span>, { store: <span style="color:#0000ff">this</span>.$store.state }, { path: <span style="color:#0000ff">this</span>.$nuxt.context.base, maxAge: <span style="color:#0000ff">this</span>.$nuxt.context.env.maxAge })</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">    }</span></span>
+<span class="odt-code-line"><span class="odt-code-line-content">  }</span></span>
+</code></pre></div>
+
+<ul>
+  <li>Riga 10: La modifica al contatore viene riportata nel cookie di sessione;
+  </li>
+</ul>
+
+<p>Verifichiamolo. Partiamo dalla seguente situazione:</p>
+<p><img src="images/10000000000007EF000005E5DA78BB73.png" width="609" height="453" style="width:16.12cm;height:11.977cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000007EF000005E5DA78BB73.png" /></p>
+<ul>
+  <li>in [4], il contatore del cookie di sessione riflette correttamente il valore visualizzato [1];
+  </li>
+</ul>
+
+<p>Ora, incrementiamo il contatore di una volta [5]. Il cookie di sessione in [4] cambia come segue:</p>
+<p><img src="images/10000000000007EC000005DCC967A8FF.png" width="609" height="450" style="width:16.103cm;height:11.912cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000007EC000005DCC967A8FF.png" /></p>
+<ul>
+  <li>in [7], il contatore del cookie di sessione è effettivamente cambiato a 84. Per verificarlo, è necessario aggiornare la visualizzazione [8]. A tal fine, selezionare un&#x27;altra opzione da [Storage] [9], quindi riselezionare l&#x27;opzione [8]. Dovrebbe quindi apparire il nuovo valore del cookie di sessione;
+  </li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner">
+
+      <div>
+        <a href="https://stahe.github.io" target="_blank">
+          https://stahe.github.io
+        </a>
+        <br>
+        Questo tutorial scritto da <strong>Serge Tahé</strong> è reso disponibile al pubblico secondo i termini della
+<em>Creative Commons Attribuzione – Non commerciale –
+Condividi allo stesso modo 3.0 Unported</em>.
+      </div>
+
+    </div>
+  </div>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.indexes", "navigation.expand", "toc.integrate", "navigation.top"], "search": "assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="javascripts/focus.js"></script>
+      
+    
+  </body>
+</html>
